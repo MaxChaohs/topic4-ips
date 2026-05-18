@@ -1,0 +1,75 @@
+# ============================================================
+# WiFi Positioning Contest - Config File
+# All tunable params live here, only this file needs editing before contest
+# ============================================================
+
+# --- Field bounds (used for constrained solving) ---
+field:
+  x_min: 0.0
+  x_max: 14.5
+  y_min: 0.0
+  y_max: 8.5
+  z_min: 0.0
+  z_max: 3.0
+
+# --- 4 Infra AP known positions ---
+# BSSID will be filled by scan_channels.py at the contest site
+infrastructure:
+  infra_1:
+    position: [14.4, 8.3, 0.0]
+    bssid: "00:11:32:AD:8E:B7"
+    channel: 9
+    frequency: 2452
+  infra_2:
+    position: [13.7, 1.6, 3.0]
+    bssid: "00:11:32:9D:2B:30"
+    channel: 5
+    frequency: 2432
+  infra_3:
+    position: [1.4, 0.0, 0.0]
+    bssid: "00:11:32:9D:30:3A"
+    channel: 1
+    frequency: 2412
+  infra_4:
+    position: [2.0, 7.5, 3.0]
+    bssid: "00:11:32:AD:8C:82"
+    channel: 8
+    frequency: 2447
+
+# --- Path Loss Model params ---
+# RSSI = A - 10*n*log10(d)
+# Defaults below; calibrate.py overwrites per-AP values
+# Bands fitted separately (2.4G vs 5G have different propagation)
+path_loss:
+  default_2_4ghz:
+    A: -40.0
+    n: 2.8
+  default_5ghz:
+    A: -45.0
+    n: 3.2
+  # Per-AP calibrated params written by calibrate.py
+  # Reset to null because previous 2-point calibration was geometrically degenerate
+  # (n came out negative -- a clear sign of bad fit). Re-run calibration with 4+ points.
+  per_ap:
+    infra_1: { A_2_4: null, n_2_4: null, A_5: null, n_5: null }
+    infra_2: { A_2_4: null, n_2_4: null, A_5: null, n_5: null }
+    infra_3: { A_2_4: null, n_2_4: null, A_5: null, n_5: null }
+    infra_4: { A_2_4: null, n_2_4: null, A_5: null, n_5: null }
+
+# --- Collection params ---
+collection:
+  duration_seconds: 20             # hard contest constraint
+  interface: "wlan1"               # NOT wlan1mon: we use denyinterfaces wlan1 + iw set type monitor
+  monitor_interface: "wlan1"
+  channel_hop_dwell_ms: 4500       # ms per channel during hopping
+  # Single channel if all 4 APs on same ch, otherwise list all
+  channels_to_hop: [1, 5, 8, 9]
+
+# --- Solver params ---
+solver:
+  min_samples_per_ap: 3
+  outlier_method: "median"
+  trim_percent: 20
+  weight_method: "rssi_based"
+  ensemble_method: "weighted_mean"
+  divergence_threshold: 3.0

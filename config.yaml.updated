@@ -1,0 +1,85 @@
+field:
+  x_min: 0.0
+  x_max: 14.5
+  y_min: 0.0
+  y_max: 8.5
+  z_min: 0.0
+  z_max: 3.0
+infrastructure:
+  infra_1:
+    position:
+    - 14.4
+    - 8.3
+    - 0.0
+    bssid: 00:11:32:ad:8e:b8
+    channel: 36
+    frequency: 5180
+  infra_2:
+    position:
+    - 13.7
+    - 1.6
+    - 3.0
+    bssid: 00:11:32:9d:2b:31
+    channel: 44
+    frequency: 5220
+  infra_3:
+    position:
+    - 1.4
+    - 0.0
+    - 0.0
+    bssid: 00:11:32:9d:30:3a
+    channel: 1
+    frequency: 2412
+  infra_4:
+    position:
+    - 2.0
+    - 7.5
+    - 3.0
+    bssid: 00:11:32:ad:8c:83
+    channel: 161
+    frequency: 5805
+path_loss:
+  default_2_4ghz:
+    A: -40.0
+    n: 2.8
+  default_5ghz:
+    A: -45.0
+    n: 3.2
+  per_ap:
+    infra_1:
+      A_2_4: null
+      n_2_4: null
+      A_5: null
+      n_5: null
+    infra_2:
+      A_2_4: null
+      n_2_4: null
+      A_5: null
+      n_5: null
+    infra_3:
+      A_2_4: null
+      n_2_4: null
+      A_5: null
+      n_5: null
+    infra_4:
+      A_2_4: null
+      n_2_4: null
+      A_5: null
+      n_5: null
+collection:
+  duration_seconds: 20
+  interface: wlan1mon
+  monitor_interface: wlan1mon
+  channel_hop_dwell_ms: 4500
+  channels_to_hop:
+  - 1
+  - 36
+  - 44
+  - 161
+solver:
+  min_samples_per_ap: 3
+  outlier_method: median
+  trim_percent: 20
+  weight_method: rssi_based
+  ensemble_method: weighted_mean
+  divergence_threshold: 3.0
